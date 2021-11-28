@@ -3,6 +3,11 @@ package view;
 //import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.UIManager;
 
+/**
+ * Classe View de "Sobre"
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
+ */
 public class Sobre extends javax.swing.JFrame {
     
     public Sobre() {

@@ -6,10 +6,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import java.io.IOException;
-import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import models.Pista;
 
+/**
+ * Classe Main
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
+ */
 public class Main extends javax.swing.JFrame {
 
     private FileNameExtensionFilter Filter;

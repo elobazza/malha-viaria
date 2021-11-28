@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package models;
+package model;
 
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
 /**
- *
- * @author elois
+ * Modelo da Pista
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
  */
 public class Pista {
     

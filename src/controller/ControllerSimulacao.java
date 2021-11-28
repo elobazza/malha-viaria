@@ -7,15 +7,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import models.Veiculo;
-import models.Pista;
+import model.Veiculo;
+import model.Pista;
 import view.InterfaceViewObserver;
-import view.TableModelMalha;
+import view.tablemodel.TableModelMalha;
 
 /**
- * Controller Game
- * 
- * @author Eloisa Bazzanella e Maria Eduarda Buzana
+ * Classe de Controller da Simulação
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
  */
 public class ControllerSimulacao implements InterfaceControllerObserved {
      

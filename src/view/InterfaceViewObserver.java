@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
+import view.tablemodel.TableModelMalha;
+
 /**
- *
- * @author elois
+ * Interface para a View
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
  */
 public interface InterfaceViewObserver {
     

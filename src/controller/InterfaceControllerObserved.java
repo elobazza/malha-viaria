@@ -1,18 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
-import models.Pista;
+import model.Pista;
+import view.InterfaceViewObserver;
 
 /**
- *
- * @author elois
+ * Interface para o Controller
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
  */
 public interface InterfaceControllerObserved {
     
     public Pista[][] getMalhaRodoviaria();
+    
+    public void addObserver(InterfaceViewObserver observer);
+    
+    public void removeObserver(InterfaceViewObserver observer);
     
 }

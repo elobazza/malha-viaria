@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package view;
+package view.tablemodel;
 
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import models.Pista;
+import model.Pista;
 
 /**
- *
- * @author elois
+ * Classe para Renderizar a Malha (desenhar na tela)
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
  */
 public class DefaultTableCellRendererMalha extends DefaultTableCellRenderer {
     
@@ -24,13 +20,9 @@ public class DefaultTableCellRendererMalha extends DefaultTableCellRenderer {
 //                super.setIcon(pistaAtual.getCarro().getIcone());    
             }
             else {
-//                super.setBackground(pistaAtual.getCor());
                 super.setIcon(pistaAtual.getIcone());
             }
         }
-//        else {
-//            throw new Error("ERRINHO");
-//        }
         
         super.setHorizontalAlignment(CENTER);
         super.setVerticalAlignment(CENTER);

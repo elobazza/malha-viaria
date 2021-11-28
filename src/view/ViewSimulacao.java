@@ -1,18 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 //import com.formdev.flatlaf.FlatLightLaf;
-
+import view.tablemodel.TableModelMalha;
+import view.tablemodel.DefaultTableCellRendererMalha;
 import controller.ControllerSimulacao;
 import java.awt.Color;
 
 /**
- *
- * @author mduda
+ * Classe View da Simulação
+ * @author Eloísa Bazzanella e Maria Eduarda Buzana
+ * @since  novembro, 2021
  */
 public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewObserver {
     
@@ -28,8 +25,7 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
         
     }
     
-    
-    @SuppressWarnings("unchecked")
+     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -117,8 +113,6 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btFinalizar;
     private javax.swing.JButton btIniciar;
