@@ -15,20 +15,27 @@ public class Pista {
     private boolean transitaDireita;
     private boolean transitaEsquerda;
     
-    private Color cor;
+    private boolean   isEntrada;
+    private boolean   isSaida;
+    private int       tipo;
+    private Color     cor;
     private ImageIcon icone;
     
     private Veiculo veiculo;
 
     public Pista() {}
     
-    public Pista(boolean transitaCima, boolean transitaBaixo, boolean transitaDireita, boolean transitaEsquerda) {
-        this.transitaCima = transitaCima;
-        this.transitaBaixo = transitaBaixo;
-        this.transitaDireita = transitaDireita;
-        this.transitaEsquerda = transitaEsquerda;
+    public Pista(int tipo) {
+        this.tipo = tipo;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
     
     public boolean isTransitaCima() {
         return transitaCima;
@@ -85,6 +92,21 @@ public class Pista {
     public void setCor(Color cor) {
         this.cor = cor;
     }
-       
-    
+
+    public boolean isEntrada() {
+        return isEntrada;
+    }
+
+    public void setIsEntrada(boolean isEntrada) {
+        this.isEntrada = isEntrada;
+    }
+
+    public boolean isSaida() {
+        return isSaida;
+    }
+
+    public void setIsSaida(boolean isSaida) {
+        this.isSaida = isSaida;
+    }
+
 }

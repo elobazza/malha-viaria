@@ -1,6 +1,7 @@
 package view;
 
 //import com.formdev.flatlaf.FlatLightLaf;
+import controller.ControllerPista;
 import view.tablemodel.TableModelMalha;
 import view.tablemodel.DefaultTableCellRendererMalha;
 import controller.ControllerSimulacao;
@@ -13,15 +14,15 @@ import java.awt.Color;
  */
 public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewObserver {
     
-    private ControllerSimulacao controller;
+    private ControllerSimulacao controllerSimulacao;
     private TableModelMalha     tableModel;
     
     public ViewSimulacao(ControllerSimulacao controller) {
         initComponents();
         
         this.atualizaTableModel(new TableModelMalha(controller));
-        this.controller = controller;
-        this.controller.addObserver(this);
+        this.controllerSimulacao = controller;
+        this.controllerSimulacao.addObserver(this);
         
     }
     

@@ -27,12 +27,15 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
     
     private ArrayList<InterfaceViewObserver> observers;
     
+    private ControllerPista controllerPista;
+   
     private static ControllerSimulacao instance = null;
 
     public ControllerSimulacao() {
-        this.observers     = new ArrayList<InterfaceViewObserver>();
-        this.carros        = new ArrayList<Veiculo>();
-        this.pistasEntrada = new ArrayList<Pista>();
+        this.observers       = new ArrayList<InterfaceViewObserver>();
+        this.carros          = new ArrayList<Veiculo>();
+        this.pistasEntrada   = new ArrayList<Pista>();
+        this.controllerPista = new ControllerPista();
     }
 
     public static ControllerSimulacao getInstance() {
@@ -60,19 +63,23 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
             String row[] = in.readLine().split("\t");
             for (int j = 0; j < colunas; j++) {
                 if(Integer.parseInt(row[j]) == 0) {
-                    malha[i][j] = new Pista();
+                    malha[i][j] = new Pista(Integer.parseInt(row[j]));
                     malha[i][j].setCor(new Color(40, 114, 51));
                     malha[i][j].setIcone(new ImageIcon(this.getClass().getResource("/img/grama.png")));
+                    
                 } else {
-                    malha[i][j] = new Pista();
+                    malha[i][j] = new Pista(Integer.parseInt(row[j]));
                     malha[i][j].setCor(new Color(128, 128, 128));
                     malha[i][j].setIcone(new ImageIcon(this.getClass().getResource("/img/asfalto.jpg")));
                     
+                    this.controllerPista.defineDirecaoPista(malha[i][j]);
                 }
             }
         }
-         this.notifyTableModel(new TableModelMalha(this));
         
+        this.controllerPista.definePistaEntradaSaida(malha);
+        
+        this.notifyTableModel(new TableModelMalha(this));
     }   
     
     private void notifyTableModel(TableModelMalha tableModelMalha) {
