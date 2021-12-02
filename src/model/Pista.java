@@ -10,10 +10,12 @@ import javax.swing.ImageIcon;
  */
 public class Pista {
     
-    private boolean transitaCima;
-    private boolean transitaBaixo;
-    private boolean transitaDireita;
-    private boolean transitaEsquerda;
+    private Pista pistaCima;
+    private Pista pistaBaixo;
+    private Pista pistaDireita;
+    private Pista pistaEsquerda;
+    
+    private boolean transitavel;
     
     private boolean   isEntrada;
     private boolean   isSaida;
@@ -27,6 +29,12 @@ public class Pista {
     
     public Pista(int tipo) {
         this.tipo = tipo;
+        if(this.tipo == 0) {
+            setTransitavel(false);
+        } else {
+            setTransitavel(true);
+        }
+        
     }
 
     public int getTipo() {
@@ -36,39 +44,47 @@ public class Pista {
     public void setTipo(int tipo) {
         this.tipo = tipo;
     }
-    
-    public boolean isTransitaCima() {
-        return transitaCima;
+
+    public boolean isTransitavel() {
+        return transitavel;
     }
 
-    public void setTransitaCima(boolean transitaCima) {
-        this.transitaCima = transitaCima;
+    public void setTransitavel(boolean transitavel) {
+        this.transitavel = transitavel;
     }
 
-    public boolean isTransitaBaixo() {
-        return transitaBaixo;
+    public Pista getPistaCima() {
+        return pistaCima;
     }
 
-    public void setTransitaBaixo(boolean transitaBaixo) {
-        this.transitaBaixo = transitaBaixo;
+    public void setPistaCima(Pista pistaCima) {
+        this.pistaCima = pistaCima;
     }
 
-    public boolean isTransitaDireita() {
-        return transitaDireita;
+    public Pista getPistaBaixo() {
+        return pistaBaixo;
     }
 
-    public void setTransitaDireita(boolean transitaDireita) {
-        this.transitaDireita = transitaDireita;
+    public void setPistaBaixo(Pista pistaBaixo) {
+        this.pistaBaixo = pistaBaixo;
     }
 
-    public boolean isTransitaEsquerda() {
-        return transitaEsquerda;
+    public Pista getPistaDireita() {
+        return pistaDireita;
     }
 
-    public void setTransitaEsquerda(boolean transitaEsquerda) {
-        this.transitaEsquerda = transitaEsquerda;
+    public void setPistaDireita(Pista pistaDireita) {
+        this.pistaDireita = pistaDireita;
     }
 
+    public Pista getPistaEsquerda() {
+        return pistaEsquerda;
+    }
+
+    public void setPistaEsquerda(Pista pistaEsquerda) {
+        this.pistaEsquerda = pistaEsquerda;
+    }
+        
     public ImageIcon getIcone() {
         return icone;
     }
@@ -108,5 +124,4 @@ public class Pista {
     public void setIsSaida(boolean isSaida) {
         this.isSaida = isSaida;
     }
-
 }

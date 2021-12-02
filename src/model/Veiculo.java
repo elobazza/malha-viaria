@@ -1,5 +1,7 @@
 package model;
 
+import controller.ControllerSimulacao;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 
@@ -8,17 +10,19 @@ import javax.swing.ImageIcon;
  * @author Eloísa Bazzanella e Maria Eduarda Buzana
  * @since  novembro, 2021
  */
-public class Veiculo {
+public class Veiculo extends Thread {
     
     private ImageIcon icone;
 
     private Pista pista;    
     private Pista pistaAnterior;
+    
+    private int velocidade;
 
-//    private Semaphore mutex = new Semaphore(1);
+    private Semaphore mutex = new Semaphore(1);
     
     public Veiculo() {
-        this.icone = new ImageIcon(getClass().getResource("/img/veiculo.png"));
+        this.icone = new ImageIcon(this.getClass().getResource("/img/veiculo.png"));
     }
 
     public ImageIcon getIcone() {
@@ -44,6 +48,80 @@ public class Veiculo {
     public void setPistaAnterior(Pista pistaAnterior) {
         this.pistaAnterior = pistaAnterior;
     }
+
+    public int getVelocidade() {
+        return velocidade;
+    }
+
+    public void setVelocidade(int velocidade) {
+        this.velocidade = velocidade;
+    }
+    
+    @Override
+    public void start() {
+        while(true) {
+            try {
+                this.mutex.acquire();
+                
+                if(this.pista.isSaida()) {
+                    this.pista.setVeiculo(null);
+                    ControllerSimulacao.getInstance().notifyTableModelChanged();
+                    
+                    this.finalize();
+                }
+                
+                Pista proximaPista = this.getProximaPista();
+                
+                this.pistaAnterior = this.pista;
+                this.pistaAnterior.setVeiculo(null);
+                
+                this.pista = proximaPista;
+                this.pista.setVeiculo(this);
+                
+                ControllerSimulacao.getInstance().notifyTableModelChanged();
+                
+                Thread.sleep(this.getVelocidade());
+                
+                this.mutex.release();
+            } 
+            catch (InterruptedException ex) {} 
+            catch (Throwable ex) {}
+            finally {
+                this.mutex.release();
+            }
+        }
+        
+    public synchronized Pista getProximaPista() { 
+        Pista pista = null;
+        
+        Random random       = new Random();
+        int numeroAleatorio = random.nextInt(4) + 1;
+        
+        switch(numeroAleatorio) {
+            case 1:
+                pista = this.pista.getPistaEsquerda();
+                break;
+            case 2:
+                pista = this.pista.getPistaCima();
+                break;
+            case 3:
+                pista = this.pista.getPistaDireita();
+                break;
+            case 4:
+                pista = this.pista.getPistaBaixo();
+                break;
+        }
+        
+        if(this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
+            pista = this.getProximaPista();
+        }
+        else if(!pista.isTransitavel()) {
+            pista = this.getProximaPista();
+        }
+        
+        return pista;
+    }
+    
     
     
 }

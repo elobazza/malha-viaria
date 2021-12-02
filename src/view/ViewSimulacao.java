@@ -1,7 +1,6 @@
 package view;
 
 //import com.formdev.flatlaf.FlatLightLaf;
-import controller.ControllerPista;
 import view.tablemodel.TableModelMalha;
 import view.tablemodel.DefaultTableCellRendererMalha;
 import controller.ControllerSimulacao;
@@ -17,12 +16,17 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
     private ControllerSimulacao controllerSimulacao;
     private TableModelMalha     tableModel;
     
+    private int quantidadeCarros;
+    
     public ViewSimulacao(ControllerSimulacao controller) {
         initComponents();
         
         this.atualizaTableModel(new TableModelMalha(controller));
         this.controllerSimulacao = controller;
         this.controllerSimulacao.addObserver(this);
+//        if(tfQtdVeiculos.getText() != null) {
+//            this.quantidadeCarros = Integer.parseInt(tfQtdVeiculos.getText());
+//        }
         
     }
     
@@ -124,6 +128,7 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
     private javax.swing.JTextField tfQtdVeiculos;
     // End of variables declaration//GEN-END:variables
 
+    
     @Override
     public void atualizaTable() {
         this.tableModel.fireTableDataChanged();

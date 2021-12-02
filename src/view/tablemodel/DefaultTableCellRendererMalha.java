@@ -17,7 +17,7 @@ public class DefaultTableCellRendererMalha extends DefaultTableCellRenderer {
             Pista pistaAtual = (Pista) pista;
             
             if(pistaAtual.getVeiculo()!= null) {
-//                super.setIcon(pistaAtual.getCarro().getIcone());    
+                super.setIcon(pistaAtual.getVeiculo().getIcone());    
             }
             else {
                 super.setIcon(pistaAtual.getIcone());
