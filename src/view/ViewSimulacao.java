@@ -23,11 +23,7 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
         
         this.atualizaTableModel(new TableModelMalha(controller));
         this.controllerSimulacao = controller;
-        this.controllerSimulacao.addObserver(this);
-//        if(tfQtdVeiculos.getText() != null) {
-//            this.quantidadeCarros = Integer.parseInt(tfQtdVeiculos.getText());
-//        }
-        
+        this.controllerSimulacao.addObserver(this);       
     }
     
      @SuppressWarnings("unchecked")
@@ -50,6 +46,11 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
         btIniciar.setMaximumSize(new java.awt.Dimension(63, 24));
         btIniciar.setMinimumSize(new java.awt.Dimension(63, 24));
         btIniciar.setPreferredSize(new java.awt.Dimension(63, 24));
+        btIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btIniciarActionPerformed(evt);
+            }
+        });
 
         btFinalizar.setText("Finalizar");
         btFinalizar.setMaximumSize(new java.awt.Dimension(63, 24));
@@ -118,6 +119,12 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIniciarActionPerformed
+        this.quantidadeCarros = Integer.parseInt(tfQtdVeiculos.getText());
+        this.controllerSimulacao.iniciaSimulacao(quantidadeCarros, false, false);
+    }//GEN-LAST:event_btIniciarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btFinalizar;
     private javax.swing.JButton btIniciar;

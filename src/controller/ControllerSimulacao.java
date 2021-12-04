@@ -24,7 +24,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
     
     private ArrayList<Pista> pistasEntrada;
 
-    private ArrayList<Veiculo> carros;
+    private ArrayList<Veiculo> veiculos;
     
     private ArrayList<InterfaceViewObserver> observers;
        
@@ -32,7 +32,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
 
     public ControllerSimulacao() {
         this.observers       = new ArrayList<InterfaceViewObserver>();
-        this.carros          = new ArrayList<Veiculo>();
+        this.veiculos          = new ArrayList<Veiculo>();
         this.pistasEntrada   = new ArrayList<Pista>();
     }
 
@@ -52,11 +52,11 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
     }
 
     public ArrayList<Veiculo> getVeiculos() {
-        return carros;
+        return veiculos;
     }
 
     public void addVeiculo(Veiculo carro) {
-        this.carros.add(carro);
+        this.veiculos.add(carro);
     }
     
     public void addObserver(InterfaceViewObserver observer) {
@@ -85,14 +85,15 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
                     malha[i][j] = new Pista(Integer.parseInt(row[j]));
                     malha[i][j].setCor(new Color(128, 128, 128));
                     malha[i][j].setIcone(new ImageIcon(this.getClass().getResource("/img/asfalto.jpg")));
-                    if(i == 0 && j == 7){
-                        malha[i][j].setVeiculo(new Veiculo());
-                    }
+//                    if(i == 0 && j == 7){
+//                        malha[i][j].setVeiculo(new Veiculo());
+//                    }
                 }
             }
         }
         
         this.definePistaEntradaSaida(malha);
+        this.carregaMatrizPistas();
         this.notifyTableModel(new TableModelMalha(this));
     }   
     
@@ -154,7 +155,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
         new Thread(() -> {
             Random random = new Random();
             
-            while(this.carros.size() < quantidadeVeiculo) {
+            while(this.veiculos.size() < quantidadeVeiculo) {
                 Pista pista = this.pistasEntrada.get(random.nextInt(this.pistasEntrada.size()));
 
                 Veiculo veiculo = new Veiculo();
@@ -164,7 +165,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
                 pista.setVeiculo(veiculo);
                 veiculo.setPista(pista);
                 
-//                this.notifyTableModel();
+                this.notifyTableModelChanged();
                 
                 new Thread(() -> {
                     veiculo.start();
@@ -194,5 +195,33 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
     @Override
     public Pista[][] getMalhaRodoviaria() {
         return this.malha;
+    }
+    
+      private void carregaMatrizPistas() {
+        for (int x = 0; x < malha.length; x++) {
+            for (int y = 0; y < malha[x].length; y++) {
+                Pista pista = malha[x][y];
+                
+                if(this.verificaIndiceExisteArray(x, y - 1)) {
+                    pista.setPistaCima(malha[x][y - 1]);
+                }
+                
+                if(this.verificaIndiceExisteArray(x, y + 1)) {
+                    pista.setPistaBaixo(malha[x][y + 1]);
+                }
+                
+                if(this.verificaIndiceExisteArray(x + 1, y)) {
+                    pista.setPistaDireita(malha[x + 1][y]);
+                }
+                
+                if(this.verificaIndiceExisteArray(x - 1, y)) {
+                    pista.setPistaEsquerda(malha[x - 1][y]);
+                }
+            }
+        }
+    }
+      
+    private boolean verificaIndiceExisteArray(int x, int y) {
+        return (x >= 0 && x < this.malha.length) && (y >= 0 && y < this.malha[0].length);
     }
 }

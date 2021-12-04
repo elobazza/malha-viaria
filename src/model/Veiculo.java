@@ -1,7 +1,6 @@
 package model;
 
 import controller.ControllerSimulacao;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 
@@ -23,6 +22,7 @@ public class Veiculo extends Thread {
     
     public Veiculo() {
         this.icone = new ImageIcon(this.getClass().getResource("/img/veiculo.png"));
+        this.velocidade = 1000;
     }
 
     public ImageIcon getIcone() {
@@ -90,38 +90,39 @@ public class Veiculo extends Thread {
                 this.mutex.release();
             }
         }
+    }
         
-    public synchronized Pista getProximaPista() { 
+    public synchronized Pista getProximaPista() {
         Pista pista = null;
         
-        Random random       = new Random();
-        int numeroAleatorio = random.nextInt(4) + 1;
-        
-        switch(numeroAleatorio) {
-            case 1:
-                pista = this.pista.getPistaEsquerda();
-                break;
-            case 2:
+        switch(this.pista.getTipo()) {
+            case 1: {
                 pista = this.pista.getPistaCima();
-                break;
-            case 3:
+            }
+            case 2: {
                 pista = this.pista.getPistaDireita();
-                break;
-            case 4:
+                
+            }
+            case 3: {
                 pista = this.pista.getPistaBaixo();
-                break;
+                
+            }
+            case 4: {
+                pista = this.pista.getPistaEsquerda();
+                
+            }
         }
         
-        if(this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
+//        if(!pista.isTransitavel()) {
+//            pista = this.getProximaPista();
+//        } else{
+//            
+//        }
+        
+//        if(this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
             pista = this.getProximaPista();
-        }
-        else if(!pista.isTransitavel()) {
-            pista = this.getProximaPista();
-        }
+//        }
         
         return pista;
-    }
-    
-    
-    
+    }  
 }
