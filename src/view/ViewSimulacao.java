@@ -146,4 +146,15 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
         this.tableModel = tableModelMalha;
         this.tableMalha.setModel(this.tableModel);
     }
+
+    @Override
+    public void atualizaButton(Boolean iniciar) {
+        if(iniciar) {
+            this.btIniciar.setEnabled(false);
+            this.btFinalizar.setEnabled(true);
+        } else {
+            this.btIniciar.setEnabled(true);
+            this.btFinalizar.setEnabled(false);
+        }
+    }
 }

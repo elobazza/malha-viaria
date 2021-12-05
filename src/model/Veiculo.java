@@ -58,10 +58,11 @@ public class Veiculo extends Thread {
     }
     
     @Override
-    public void start() {
+//    public void start() {
+    public void run() {
         while(true) {
             try {
-                this.mutex.acquire();
+//                this.mutex.acquire();
                 
                 if(this.pista.isSaida()) {
                     this.pista.setVeiculo(null);
@@ -77,6 +78,8 @@ public class Veiculo extends Thread {
                 
                 this.pista = proximaPista;
                 this.pista.setVeiculo(this);
+                
+                this.mutex.acquire();
                 
                 ControllerSimulacao.getInstance().notifyTableModelChanged();
                 
@@ -98,30 +101,29 @@ public class Veiculo extends Thread {
         switch(this.pista.getTipo()) {
             case 1: {
                 pista = this.pista.getPistaCima();
+                break;
             }
             case 2: {
                 pista = this.pista.getPistaDireita();
-                
+                break;                
             }
             case 3: {
                 pista = this.pista.getPistaBaixo();
-                
+                break;  
             }
             case 4: {
                 pista = this.pista.getPistaEsquerda();
-                
+                break;  
             }
         }
         
-//        if(!pista.isTransitavel()) {
-//            pista = this.getProximaPista();
-//        } else{
-//            
-//        }
-        
-//        if(this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
+        if(!pista.isTransitavel()) {
             pista = this.getProximaPista();
-//        }
+        }
+        
+        if(this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
+            pista = this.getProximaPista();
+        }
         
         return pista;
     }  

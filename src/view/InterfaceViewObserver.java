@@ -12,5 +12,7 @@ public interface InterfaceViewObserver {
     public void atualizaTable();
     
     public void atualizaTableModel(TableModelMalha tableModelMalha);
+    
+    public void atualizaButton(Boolean iniciar);
    
 }

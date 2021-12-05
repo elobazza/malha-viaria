@@ -124,4 +124,9 @@ public class Pista {
     public void setIsSaida(boolean isSaida) {
         this.isSaida = isSaida;
     }
+    
+    public boolean isCruzamento() {
+        return this.getTipo() > 4; //Cruzamentos possuem o Tipo entre 5 e 12 (Limite)
+    }
+    
 }
