@@ -173,7 +173,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
                 try {
                     Thread.sleep(veiculo.getVelocidade());
                 } catch (InterruptedException ex) {
-//                    Logger.getLogger(ControllerMalhaRodoviaria.class.getName()).log(Level.SEVERE, null, ex);
+
                 }
             }
         }).start();
@@ -226,6 +226,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
                 if(this.verificaIndiceExisteArray(x - 1, y)) {
                     pista.setPistaCima(malha[x - 1][y]);
                 }
+
             }
         }
     }

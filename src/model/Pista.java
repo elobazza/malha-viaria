@@ -15,8 +15,6 @@ public class Pista {
     private Pista pistaDireita;
     private Pista pistaEsquerda;
     
-    private boolean transitavel;
-    
     private boolean   isEntrada;
     private boolean   isSaida;
     private int       tipo;
@@ -28,13 +26,7 @@ public class Pista {
     public Pista() {}
     
     public Pista(int tipo) {
-        this.tipo = tipo;
-        if(this.tipo == 0) {
-            setTransitavel(false);
-        } else {
-            setTransitavel(true);
-        }
-        
+        this.tipo = tipo;        
     }
 
     public int getTipo() {
@@ -46,11 +38,7 @@ public class Pista {
     }
 
     public boolean isTransitavel() {
-        return transitavel;
-    }
-
-    public void setTransitavel(boolean transitavel) {
-        this.transitavel = transitavel;
+        return this.getVeiculo() == null;
     }
 
     public Pista getPistaCima() {

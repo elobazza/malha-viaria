@@ -1,6 +1,7 @@
 package model;
 
 import controller.ControllerSimulacao;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 
@@ -58,7 +59,6 @@ public class Veiculo extends Thread {
     }
     
     @Override
-//    public void start() {
     public void run() {
         while(true) {
             try {
@@ -99,22 +99,83 @@ public class Veiculo extends Thread {
         Pista pista = null;
         
         switch(this.pista.getTipo()) {
-            case 1: {
+            case 1: case 5: {
                 pista = this.pista.getPistaCima();
                 break;
             }
-            case 2: {
+            case 2: case 6: {
                 pista = this.pista.getPistaDireita();
                 break;                
             }
-            case 3: {
+            case 3: case 7: {
                 pista = this.pista.getPistaBaixo();
                 break;  
             }
-            case 4: {
+            case 4: case 8: {
                 pista = this.pista.getPistaEsquerda();
                 break;  
             }
+            case 9: {
+                if(this.pistaAnterior.getTipo() == 11) {
+                    pista = this.pista.getPistaDireita();
+                } else {
+                    Random random = new Random();
+                    int opcao = random.nextInt(2);
+
+                    if(opcao == 1) {
+                        pista = this.pista.getPistaCima();
+                    } else {
+                        pista = this.pista.getPistaDireita();
+                    }
+                }
+                break;
+            }
+            case 10: {
+                if(this.pistaAnterior.getTipo() == 9) {
+                    pista = this.pista.getPistaCima();
+                } else {
+                    Random random = new Random();
+                    int opcao = random.nextInt(2);
+
+                    if(opcao == 1) {
+                        pista = this.pista.getPistaCima();
+                    } else {
+                        pista = this.pista.getPistaEsquerda();
+                    }
+                }
+                break;
+            }
+            case 11: {
+                if(this.pistaAnterior.getTipo() == 12) {
+                    pista = this.pista.getPistaBaixo();
+                } else {
+                    Random random = new Random();
+                    int opcao = random.nextInt(2);
+
+                    if(opcao == 1) {
+                        pista = this.pista.getPistaBaixo();
+                    } else {
+                        pista = this.pista.getPistaDireita();
+                    }
+                }
+                break;
+            }
+            case 12: {
+                if(this.pistaAnterior.getTipo() == 10) {
+                    pista = this.pista.getPistaEsquerda();
+                } else {
+                    Random random = new Random();
+                    int opcao = random.nextInt(2);
+
+                    if(opcao == 1) {
+                        pista = this.pista.getPistaBaixo();
+                    } else {
+                        pista = this.pista.getPistaEsquerda();
+                    }
+                }
+                break;
+            }
+            
         }
         
         if(!pista.isTransitavel()) {
