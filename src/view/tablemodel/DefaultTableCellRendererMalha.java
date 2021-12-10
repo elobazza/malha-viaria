@@ -3,7 +3,7 @@ package view.tablemodel;
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import model.Pista;
+import model.ItemPista;
 
 /**
  * Classe para Renderizar a Malha (desenhar na tela)
@@ -14,7 +14,7 @@ public class DefaultTableCellRendererMalha extends DefaultTableCellRenderer {
     
     public Component getTableCellRendererComponent(JTable table, Object pista, boolean isSelected, boolean hasFocus, int row, int column) {
         if(pista != null) {
-            Pista pistaAtual = (Pista) pista;
+            ItemPista pistaAtual = (ItemPista) pista;
             
             if(pistaAtual.getVeiculo()!= null) {
                 super.setIcon(pistaAtual.getVeiculo().getIcone());    

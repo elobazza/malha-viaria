@@ -127,7 +127,7 @@ public class ViewSimulacao extends javax.swing.JFrame implements InterfaceViewOb
 
     private void btIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIniciarActionPerformed
         this.quantidadeCarros = Integer.parseInt(tfQtdVeiculos.getText());
-        this.controllerSimulacao.iniciaSimulacao(quantidadeCarros, false, false);
+        this.controllerSimulacao.iniciarSimulacao(quantidadeCarros, false, false);
     }//GEN-LAST:event_btIniciarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

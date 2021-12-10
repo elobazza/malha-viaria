@@ -1,10 +1,9 @@
 package model;
 
 import controller.ControllerSimulacao;
+
 import java.util.Random;
 import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
@@ -17,8 +16,8 @@ public class Veiculo extends Thread {
 
     private ImageIcon icone;
 
-    private Pista pista;
-    private Pista pistaAnterior;
+    private ItemPista pistaAtual;
+    private ItemPista pistaAnterior;
 
     private int velocidade;
 
@@ -37,19 +36,19 @@ public class Veiculo extends Thread {
         this.icone = icone;
     }
 
-    public Pista getPista() {
-        return pista;
+    public ItemPista getPistaAtual() {
+        return pistaAtual;
     }
 
-    public void setPista(Pista pista) {
-        this.pista = pista;
+    public void setPistaAtual(ItemPista pistaAtual) {
+        this.pistaAtual = pistaAtual;
     }
 
-    public Pista getPistaAnterior() {
+    public ItemPista getPistaAnterior() {
         return pistaAnterior;
     }
 
-    public void setPistaAnterior(Pista pistaAnterior) {
+    public void setPistaAnterior(ItemPista pistaAnterior) {
         this.pistaAnterior = pistaAnterior;
     }
 
@@ -67,20 +66,20 @@ public class Veiculo extends Thread {
             try {
                 this.mutex.acquire();
 
-                if (pista.isSaida()) {
+                if (pistaAtual.isSaida()) {
                     this.removeVeiculo();
                     this.mutex.release();
-                    
+
                     return;
                 }
 
-                Pista proximaPista = this.getProximaPista();
+                ItemPista proximaPista = this.getProximaPista();
 
-                this.pistaAnterior = this.pista;
+                this.pistaAnterior = this.pistaAtual;
                 this.pistaAnterior.setVeiculo(null);
 
-                this.pista = proximaPista;
-                this.pista.setVeiculo(this);
+                this.pistaAtual = proximaPista;
+                this.pistaAtual.setVeiculo(this);
 
                 this.mutex.release();
 
@@ -94,91 +93,91 @@ public class Veiculo extends Thread {
     }
 
     public void removeVeiculo() {
-        this.pista.setVeiculo(null);
+        this.pistaAtual.setVeiculo(null);
         ControllerSimulacao.getInstance().removeVeiculo(this);
         ControllerSimulacao.getInstance().notifyTableModelChanged();
     }
 
-    public synchronized Pista getProximaPista() {
-        Pista pista = null;
+    public synchronized ItemPista getProximaPista() {
+        ItemPista pista = null;
 
-        switch (this.pista.getTipo()) {
+        switch (this.pistaAtual.getTipo()) {
             case 1:
             case 5: {
-                pista = this.pista.getPistaCima();
+                pista = this.pistaAtual.getPistaCima();
                 break;
             }
             case 2:
             case 6: {
-                pista = this.pista.getPistaDireita();
+                pista = this.pistaAtual.getPistaDireita();
                 break;
             }
             case 3:
             case 7: {
-                pista = this.pista.getPistaBaixo();
+                pista = this.pistaAtual.getPistaBaixo();
                 break;
             }
             case 4:
             case 8: {
-                pista = this.pista.getPistaEsquerda();
+                pista = this.pistaAtual.getPistaEsquerda();
                 break;
             }
             case 9: {
                 if (this.pistaAnterior.getTipo() == 11) {
-                    pista = this.pista.getPistaDireita();
+                    pista = this.pistaAtual.getPistaDireita();
                 } else {
                     Random random = new Random();
                     int opcao = random.nextInt(2);
 
                     if (opcao == 1) {
-                        pista = this.pista.getPistaCima();
+                        pista = this.pistaAtual.getPistaCima();
                     } else {
-                        pista = this.pista.getPistaDireita();
+                        pista = this.pistaAtual.getPistaDireita();
                     }
                 }
                 break;
             }
             case 10: {
                 if (this.pistaAnterior.getTipo() == 9) {
-                    pista = this.pista.getPistaCima();
+                    pista = this.pistaAtual.getPistaCima();
                 } else {
                     Random random = new Random();
                     int opcao = random.nextInt(2);
 
                     if (opcao == 1) {
-                        pista = this.pista.getPistaCima();
+                        pista = this.pistaAtual.getPistaCima();
                     } else {
-                        pista = this.pista.getPistaEsquerda();
+                        pista = this.pistaAtual.getPistaEsquerda();
                     }
                 }
                 break;
             }
             case 11: {
                 if (this.pistaAnterior.getTipo() == 12) {
-                    pista = this.pista.getPistaBaixo();
+                    pista = this.pistaAtual.getPistaBaixo();
                 } else {
                     Random random = new Random();
                     int opcao = random.nextInt(2);
 
                     if (opcao == 1) {
-                        pista = this.pista.getPistaBaixo();
+                        pista = this.pistaAtual.getPistaBaixo();
                     } else {
-                        pista = this.pista.getPistaDireita();
+                        pista = this.pistaAtual.getPistaDireita();
                     }
                 }
                 break;
             }
             case 12: {
                 if (this.pistaAnterior.getTipo() == 10) {
-                    pista = this.pista.getPistaEsquerda();
+                    pista = this.pistaAtual.getPistaEsquerda();
                 } else {
                     Random random = new Random();
                     int opcao = random.nextInt(2);
 
                     if (opcao == 1) {
-                        pista = this.pista.getPistaBaixo();
+                        pista = this.pistaAtual.getPistaBaixo();
                     } else {
-                        pista = this.pista.getPistaEsquerda();
+                        pista = this.pistaAtual.getPistaEsquerda();
                     }
                 }
                 break;

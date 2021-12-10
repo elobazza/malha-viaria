@@ -1,6 +1,6 @@
 package controller;
 
-import model.Pista;
+import model.ItemPista;
 import view.InterfaceViewObserver;
 
 /**
@@ -10,7 +10,7 @@ import view.InterfaceViewObserver;
  */
 public interface InterfaceControllerObserved {
     
-    public Pista[][] getMalhaRodoviaria();
+    public ItemPista[][] getMalhaRodoviaria();
     
     public void addObserver(InterfaceViewObserver observer);
     
