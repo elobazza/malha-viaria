@@ -37,10 +37,12 @@
                                   <Component id="jLabel1" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                                   <Component id="tfQtdVeiculos" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                               <Component id="btIniciar" min="-2" pref="122" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btFinalizar" min="-2" pref="122" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btPause" min="-2" pref="122" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" min="-2" pref="736" max="-2" attributes="0"/>
                       </Group>
@@ -67,8 +69,9 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btIniciar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btPause" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btFinalizar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btIniciar" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -85,9 +88,9 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tfQtdVeiculos">
     </Component>
-    <Component class="javax.swing.JButton" name="btIniciar">
+    <Component class="javax.swing.JButton" name="btPause">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Iniciar"/>
+        <Property name="text" type="java.lang.String" value="Parar Carros"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[63, 24]"/>
         </Property>
@@ -99,7 +102,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btIniciarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btPauseActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btFinalizar">
@@ -115,6 +118,9 @@
           <Dimension value="[63, 24]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btFinalizarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -149,5 +155,22 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="btIniciar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Iniciar"/>
+        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[63, 24]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[63, 24]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[63, 24]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btIniciarActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

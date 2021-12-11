@@ -25,6 +25,7 @@ import view.tablemodel.TableModelMalha;
 public class ControllerSimulacao implements InterfaceControllerObserved {
 
     private boolean start = true;
+    private boolean pause = false;
 
     private MalhaViariaService malhaViaria;
 
@@ -43,6 +44,22 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
             instance = new ControllerSimulacao();
         }
         return instance;
+    }
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+    
+    public void setStart(boolean start) {
+        this.start = start;
+    }
+    
+    public boolean isStart() {
+        return this.start;
     }
 
     public void addVeiculo(Veiculo carro) {
@@ -110,6 +127,11 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
 
     public void finalizaSimulacao() {
         notifyButtonChanged(false);
+    }
+    
+    public void finalizaSimulacaoCompletamente() {
+        this.veiculos =  null;
+        notifyTableModelChanged();
     }
 
     public void notifyRemovedVehicle() {

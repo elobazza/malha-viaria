@@ -25,7 +25,10 @@ public class Veiculo extends Thread {
 
     public Veiculo() {
         this.icone = new ImageIcon(this.getClass().getResource("/img/veiculo.png"));
-        this.velocidade = 500;
+        
+        Random random = new Random();
+        int acrescimo = random.nextInt(250);
+        this.velocidade = 500 + acrescimo;
     }
 
     public ImageIcon getIcone() {
@@ -62,7 +65,7 @@ public class Veiculo extends Thread {
 
     @Override
     public synchronized void start() {
-        while (true) {
+        while (ControllerSimulacao.getInstance().isStart() && !ControllerSimulacao.getInstance().isPause()) {
             try {
                 this.mutex.acquire();
 
@@ -74,10 +77,13 @@ public class Veiculo extends Thread {
                 }
 
                 ItemPista proximaPista = this.getProximaPista();
+                
+                while(!proximaPista.isTransitavel()) {
+                    proximaPista = this.getProximaPista();
+                }
 
                 this.pistaAnterior = this.pistaAtual;
                 this.pistaAnterior.setVeiculo(null);
-
                 this.pistaAtual = proximaPista;
                 this.pistaAtual.setVeiculo(this);
 
@@ -183,10 +189,6 @@ public class Veiculo extends Thread {
                 break;
             }
 
-        }
-
-        if (!pista.isTransitavel()) {
-            pista = this.getProximaPista();
         }
 
         if (this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
