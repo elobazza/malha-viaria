@@ -1,8 +1,8 @@
 package model;
 
 public class PosicaoPista {
-    private int linha;
-    private int coluna;
+    private final int linha;
+    private final int coluna;
 
     public PosicaoPista(int linha, int coluna) {
         this.linha = linha;
@@ -13,15 +13,8 @@ public class PosicaoPista {
         return linha;
     }
 
-    public void setLinha(int linha) {
-        this.linha = linha;
-    }
-
     public int getColuna() {
         return coluna;
     }
 
-    public void setColuna(int coluna) {
-        this.coluna = coluna;
-    }
 }

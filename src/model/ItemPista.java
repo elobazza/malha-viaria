@@ -3,19 +3,21 @@ package model;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
-/**
- * Modelo da Pista
- *
- * @author Eloísa Bazzanella e Maria Eduarda Buzana
- * @since novembro, 2021
- */
 public class ItemPista {
 
     private ItemPista pistaCima;
     private ItemPista pistaBaixo;
     private ItemPista pistaDireita;
     private ItemPista pistaEsquerda;
+    
+    private ItemPista pistaDiagonalCimaDireita;
+    private ItemPista pistaDiagonalCimaEsquerda;
+    private ItemPista pistaDiagonalBaixoDireita;
+    private ItemPista pistaDiagonalBaixoEsquerda;
 
+    private PosicaoPista posicaoPista;
+
+    private boolean ocupada = false;
     private boolean isEntrada;
     private boolean isSaida;
     private int tipo;
@@ -24,18 +26,15 @@ public class ItemPista {
 
     private Veiculo veiculo;
 
-    public ItemPista(int tipo) {
+    public ItemPista(int tipo, PosicaoPista posicaoPista) {
         this.tipo = tipo;
         this.isEntrada = false;
         this.isSaida = false;
+        this.posicaoPista = posicaoPista;
     }
 
     public int getTipo() {
         return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
     }
 
     public boolean isTransitavel() {
@@ -74,6 +73,46 @@ public class ItemPista {
         this.pistaEsquerda = pistaEsquerda;
     }
 
+    public ItemPista getPistaDiagonalCimaDireita() {
+        return pistaDiagonalCimaDireita;
+    }
+
+    public void setPistaDiagonalCimaDireita(ItemPista pistaDiagonalCimaDireita) {
+        this.pistaDiagonalCimaDireita = pistaDiagonalCimaDireita;
+    }
+
+    public ItemPista getPistaDiagonalCimaEsquerda() {
+        return pistaDiagonalCimaEsquerda;
+    }
+
+    public void setPistaDiagonalCimaEsquerda(ItemPista pistaDiagonalCimaEsquerda) {
+        this.pistaDiagonalCimaEsquerda = pistaDiagonalCimaEsquerda;
+    }
+
+    public ItemPista getPistaDiagonalBaixoDireita() {
+        return pistaDiagonalBaixoDireita;
+    }
+
+    public void setPistaDiagonalBaixoDireita(ItemPista pistaDiagonalBaixoDireita) {
+        this.pistaDiagonalBaixoDireita = pistaDiagonalBaixoDireita;
+    }
+
+    public ItemPista getPistaDiagonalBaixoEsquerda() {
+        return pistaDiagonalBaixoEsquerda;
+    }
+
+    public void setPistaDiagonalBaixoEsquerda(ItemPista pistaDiagonalBaixoEsquerda) {
+        this.pistaDiagonalBaixoEsquerda = pistaDiagonalBaixoEsquerda;
+    }
+
+    public boolean isOcupada() {
+        return ocupada;
+    }
+
+    public void setOcupada(boolean ocupada) {
+        this.ocupada = ocupada;
+    }
+
     public ImageIcon getIcone() {
         return icone;
     }
@@ -88,10 +127,6 @@ public class ItemPista {
 
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
-    }
-
-    public Color getCor() {
-        return cor;
     }
 
     public void setCor(Color cor) {
@@ -112,6 +147,10 @@ public class ItemPista {
 
     public void setIsSaida(boolean isSaida) {
         this.isSaida = isSaida;
+    }
+
+    public PosicaoPista getPosicaoPista() {
+        return posicaoPista;
     }
 
     public boolean isCruzamento() {

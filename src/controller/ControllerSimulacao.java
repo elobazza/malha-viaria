@@ -2,35 +2,36 @@ package controller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import malha.factory.AbstractMalhaFactory;
+import malha.factory.MalhaViariaMonitorFactory;
 import model.PosicaoPista;
 import model.Veiculo;
 import model.ItemPista;
-import service.MalhaViariaService;
+import malha.MalhaViaria;
+import malha.factory.MalhaViariaSemaforoFactory;
 import view.InterfaceViewObserver;
 import view.tablemodel.TableModelMalha;
 
-
-/**
- * Classe de Controller da Simulação
- *
- * @author Eloísa Bazzanella e Maria Eduarda Buzana
- * @since novembro, 2021
- */
 public class ControllerSimulacao implements InterfaceControllerObserved {
 
     private boolean start = true;
-    private boolean pause = false;
-
-    private MalhaViariaService malhaViaria;
+    private boolean running = true;
+    
+    private File arquivo;
+    private int linhas;
+    private int colunas;
+    
+    private MalhaViaria malhaViaria;
 
     private ArrayList<Veiculo> veiculos;
-    private ArrayList<InterfaceViewObserver> observers;
+    private final ArrayList<InterfaceViewObserver> observers;
 
     private static ControllerSimulacao instance = null;
 
@@ -46,18 +47,18 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
         return instance;
     }
 
-    public boolean isPause() {
-        return pause;
+    public boolean isRunning() {
+        return running;
     }
 
-    public void setPause(boolean pause) {
-        this.pause = pause;
+    public void setRunning(boolean running) {
+        this.running = running;
     }
-    
+
     public void setStart(boolean start) {
         this.start = start;
     }
-    
+
     public boolean isStart() {
         return this.start;
     }
@@ -66,6 +67,10 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
         this.veiculos.add(carro);
     }
 
+    public void removeTodosVeiculos() {
+        this.veiculos = new ArrayList<Veiculo>();
+    }
+    
     public void removeVeiculo(Veiculo carro) {
         this.veiculos.remove(carro);
     }
@@ -79,26 +84,56 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
     }
 
     public void carregaSimulacao(File arquivo) throws IOException {
+        this.arquivo = arquivo;
+       
+        this.criaMalha(false);
+        this.inicializarMalha();
+        notifyTableModel(new TableModelMalha(this));
+    }
+    
+    
+    public void factoryMalha(boolean usaMonitor) {
+        if(usaMonitor) {
+            AbstractMalhaFactory factory = new MalhaViariaMonitorFactory();
+            malhaViaria = factory.criarMalha(linhas, colunas);
+        } else {
+            AbstractMalhaFactory factory = new MalhaViariaSemaforoFactory();
+            malhaViaria = factory.criarMalha(linhas, colunas);
+        }
+    }
+    
+    public void criaMalha(boolean usaMonitor) throws FileNotFoundException, IOException {
         BufferedReader in = new BufferedReader(new FileReader(arquivo));
-        int linhas = Integer.parseInt(in.readLine());
-        int colunas = Integer.parseInt(in.readLine());
-
-        malhaViaria = new MalhaViariaService(linhas, colunas);
-
+        this.linhas = Integer.parseInt(in.readLine());
+        this.colunas = Integer.parseInt(in.readLine());
+        
+        this.factoryMalha(false);
+        
         for (int linhaAtual = 0; linhaAtual < linhas; linhaAtual++) {
             String[] listaTipos = in.readLine().split("\t");
             for (int colunaAtual = 0; colunaAtual < colunas; colunaAtual++) {
                 int tipoPista = Integer.parseInt(listaTipos[colunaAtual]);
                 PosicaoPista posicaoPista = new PosicaoPista(linhaAtual, colunaAtual);
-                malhaViaria.adicionarItemPista(posicaoPista, new ItemPista(tipoPista));
+                malhaViaria.adicionarItemPista(posicaoPista, new ItemPista(tipoPista, posicaoPista));
             }
         }
+    }
+    
+    public void inicializarMalha() {
         malhaViaria.inicializarMalha();
-        notifyTableModel(new TableModelMalha(this));
     }
 
-    public void iniciarSimulacao(int quantidadeVeiculo, boolean usaSemaforo, boolean usaMonitor) {
+    public void iniciarSimulacao(int quantidadeVeiculo, boolean usaSemaforo, boolean usaMonitor) throws FileNotFoundException, IOException {
         notifyButtonChanged(true);
+         
+        if(usaMonitor) {
+            this.malhaViaria = null;
+            this.criaMalha(true);
+        
+            this.inicializarMalha();
+            notifyTableModel(new TableModelMalha(this));
+        }
+        
         new Thread(() -> {
             while (start) {
                 if (this.veiculos.size() < quantidadeVeiculo) {
@@ -111,7 +146,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
     }
 
     public void iniciarNovoVeiculo(ItemPista itemPistaAtual) {
-        Veiculo veiculo = new Veiculo();
+        Veiculo veiculo = new Veiculo(malhaViaria);
         this.addVeiculo(veiculo);
         veiculo.setPistaAtual(itemPistaAtual);
         new Thread(veiculo::start).start();
@@ -119,7 +154,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
 
     public void sleepThread() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(400);
         } catch (InterruptedException ex) {
             Logger.getLogger(ControllerSimulacao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -129,16 +164,8 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
         notifyButtonChanged(false);
     }
     
-    public void finalizaSimulacaoCompletamente() {
-        this.veiculos =  null;
-        notifyTableModelChanged();
-    }
 
-    public void notifyRemovedVehicle() {
-
-    }
-
-    private void notifyTableModel(TableModelMalha tableModelMalha) {
+    public void notifyTableModel(TableModelMalha tableModelMalha) {
         for (InterfaceViewObserver observer : this.observers) {
             observer.atualizaTableModel(tableModelMalha);
         }
@@ -155,7 +182,7 @@ public class ControllerSimulacao implements InterfaceControllerObserved {
             observer.atualizaButton(iniciar);
         }
     }
-
+   
     @Override
     public ItemPista[][] getMalhaRodoviaria() {
         return this.malhaViaria.getMalha();

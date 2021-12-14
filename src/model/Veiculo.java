@@ -1,93 +1,79 @@
 package model;
 
 import controller.ControllerSimulacao;
+import java.util.Iterator;
+import java.util.List;
+import malha.MalhaViaria;
 
+import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 
-/**
- * Modelo do Veículo
- *
- * @author Eloísa Bazzanella e Maria Eduarda Buzana
- * @since novembro, 2021
- */
 public class Veiculo extends Thread {
 
-    private ImageIcon icone;
+    private final int velocidade;
+    private final MalhaViaria malhaViaria;
 
     private ItemPista pistaAtual;
     private ItemPista pistaAnterior;
+    private ImageIcon icone;
 
-    private int velocidade;
+    private Iterator<ItemPista> percurso;
+    private PercursoPista percursoPista;
 
-    private Semaphore mutex = new Semaphore(1);
-
-    public Veiculo() {
-        this.icone = new ImageIcon(this.getClass().getResource("/img/veiculo.png"));
-        
-        Random random = new Random();
-        int acrescimo = random.nextInt(250);
-        this.velocidade = 500 + acrescimo;
+    public Veiculo(MalhaViaria malhaViaria) {
+        this.percursoPista = new PercursoPistaBase();
+        this.sorteiaIcone();
+        this.malhaViaria = malhaViaria;
+        this.velocidade = velocidadeAleatoria();
     }
 
     public ImageIcon getIcone() {
         return icone;
     }
 
-    public void setIcone(ImageIcon icone) {
-        this.icone = icone;
-    }
-
-    public ItemPista getPistaAtual() {
-        return pistaAtual;
-    }
-
     public void setPistaAtual(ItemPista pistaAtual) {
         this.pistaAtual = pistaAtual;
-    }
-
-    public ItemPista getPistaAnterior() {
-        return pistaAnterior;
-    }
-
-    public void setPistaAnterior(ItemPista pistaAnterior) {
-        this.pistaAnterior = pistaAnterior;
     }
 
     public int getVelocidade() {
         return velocidade;
     }
 
-    public void setVelocidade(int velocidade) {
-        this.velocidade = velocidade;
+    public PercursoPista getPercursoPista() {
+        return percursoPista;
+    }
+
+    public void setPercursoPista(PercursoPista percursoPista) {
+        this.percursoPista = percursoPista;
     }
 
     @Override
     public synchronized void start() {
-        while (ControllerSimulacao.getInstance().isStart() && !ControllerSimulacao.getInstance().isPause()) {
+        while (ControllerSimulacao.getInstance().isRunning()) {
             try {
-                this.mutex.acquire();
-
-                if (pistaAtual.isSaida()) {
-                    this.removeVeiculo();
-                    this.mutex.release();
-
+                if (this.pistaAtual.isSaida()) {
+                    this.pistaAtual.setOcupada(false);
+                    this.pistaAtual.setVeiculo(null);
+                    
+                    removeVeiculo();
+                    
                     return;
                 }
 
-                ItemPista proximaPista = this.getProximaPista();
-                
-                while(!proximaPista.isTransitavel()) {
-                    proximaPista = this.getProximaPista();
+                if (this.percurso == null || !this.percurso.hasNext()) {
+                    this.percurso = this.getPercurso().iterator();
                 }
+
+                ItemPista proximaPista = this.percurso.next();
 
                 this.pistaAnterior = this.pistaAtual;
                 this.pistaAnterior.setVeiculo(null);
-                this.pistaAtual = proximaPista;
-                this.pistaAtual.setVeiculo(this);
+                this.pistaAnterior.setOcupada(false);
 
-                this.mutex.release();
+                this.pistaAtual = proximaPista;
+                
+                malhaViaria.adicionarVeiculo(pistaAtual.getPosicaoPista(), this);
 
                 ControllerSimulacao.getInstance().notifyTableModelChanged();
 
@@ -98,103 +84,49 @@ public class Veiculo extends Thread {
         }
     }
 
-    public void removeVeiculo() {
-        this.pistaAtual.setVeiculo(null);
-        ControllerSimulacao.getInstance().removeVeiculo(this);
-        ControllerSimulacao.getInstance().notifyTableModelChanged();
+    private void sorteiaIcone() {
+        Random random = new Random();
+        int opcao = random.nextInt(8);
+        
+        switch(opcao) {
+            case 1:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-1.png")));
+                break;
+            case 2:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-2.png")));
+                break;
+            case 3:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-3.png")));
+                break;
+            case 4:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-4.png")));
+                break;
+            case 5:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-5.png")));
+                break;
+            case 6:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-6.png")));
+                break;
+            case 7:  
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-7.png")));
+                break;
+            default:
+                this.icone = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("/img/veiculo-8.png"))); 
+        }
+    }
+    
+    
+    private synchronized List<ItemPista> getPercurso() {
+        return this.percursoPista.getPercurso(this.pistaAtual, this.pistaAnterior);
     }
 
-    public synchronized ItemPista getProximaPista() {
-        ItemPista pista = null;
+    private int velocidadeAleatoria() {
+        Random random = new Random();
+        int acrescimo = random.nextInt(250);
+        return 250 + acrescimo;
+    }
 
-        switch (this.pistaAtual.getTipo()) {
-            case 1:
-            case 5: {
-                pista = this.pistaAtual.getPistaCima();
-                break;
-            }
-            case 2:
-            case 6: {
-                pista = this.pistaAtual.getPistaDireita();
-                break;
-            }
-            case 3:
-            case 7: {
-                pista = this.pistaAtual.getPistaBaixo();
-                break;
-            }
-            case 4:
-            case 8: {
-                pista = this.pistaAtual.getPistaEsquerda();
-                break;
-            }
-            case 9: {
-                if (this.pistaAnterior.getTipo() == 11) {
-                    pista = this.pistaAtual.getPistaDireita();
-                } else {
-                    Random random = new Random();
-                    int opcao = random.nextInt(2);
-
-                    if (opcao == 1) {
-                        pista = this.pistaAtual.getPistaCima();
-                    } else {
-                        pista = this.pistaAtual.getPistaDireita();
-                    }
-                }
-                break;
-            }
-            case 10: {
-                if (this.pistaAnterior.getTipo() == 9) {
-                    pista = this.pistaAtual.getPistaCima();
-                } else {
-                    Random random = new Random();
-                    int opcao = random.nextInt(2);
-
-                    if (opcao == 1) {
-                        pista = this.pistaAtual.getPistaCima();
-                    } else {
-                        pista = this.pistaAtual.getPistaEsquerda();
-                    }
-                }
-                break;
-            }
-            case 11: {
-                if (this.pistaAnterior.getTipo() == 12) {
-                    pista = this.pistaAtual.getPistaBaixo();
-                } else {
-                    Random random = new Random();
-                    int opcao = random.nextInt(2);
-
-                    if (opcao == 1) {
-                        pista = this.pistaAtual.getPistaBaixo();
-                    } else {
-                        pista = this.pistaAtual.getPistaDireita();
-                    }
-                }
-                break;
-            }
-            case 12: {
-                if (this.pistaAnterior.getTipo() == 10) {
-                    pista = this.pistaAtual.getPistaEsquerda();
-                } else {
-                    Random random = new Random();
-                    int opcao = random.nextInt(2);
-
-                    if (opcao == 1) {
-                        pista = this.pistaAtual.getPistaBaixo();
-                    } else {
-                        pista = this.pistaAtual.getPistaEsquerda();
-                    }
-                }
-                break;
-            }
-
-        }
-
-        if (this.pistaAnterior != null && pista.equals(this.pistaAnterior)) {
-            pista = this.getProximaPista();
-        }
-
-        return pista;
+    private void removeVeiculo() {
+        malhaViaria.removerVeiculo(pistaAtual.getPosicaoPista(), this);
     }
 }

@@ -1,173 +1,31 @@
 package view;
 
 import controller.ControllerSimulacao;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- * Classe Main
- *
- * @author Eloísa Bazzanella e Maria Eduarda Buzana
- * @since novembro, 2021
- */
-public class Main extends JFrame {
+
+public class Main extends javax.swing.JFrame {
 
     private FileNameExtensionFilter Filter;
     private JFileChooser FileChooser;
     private ControllerSimulacao controllerSimulacao;
-
+    
     public Main() {
         initComponents();
         this.setFileChooserOptions();
         this.controllerSimulacao = ControllerSimulacao.getInstance();
     }
-
+    
     private void setFileChooserOptions() {
         this.FileChooser = new JFileChooser();
         this.Filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
 
         FileChooser.setFileFilter(Filter);
-    }
-
-    private void initComponents() {
-        jPanel1 = new javax.swing.JPanel();
-        zero_zero1 = new javax.swing.JLabel();
-        zero_zero2 = new javax.swing.JLabel();
-        zero_zero16 = new javax.swing.JLabel();
-        zero_zero18 = new javax.swing.JLabel();
-        zero_zero19 = new javax.swing.JLabel();
-        zero_zero22 = new javax.swing.JLabel();
-        zero_zero24 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        zero_zero1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero1.setText("0 X 0");
-
-        zero_zero2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero2.setText("0 X 0");
-
-        zero_zero16.setBackground(new java.awt.Color(255, 51, 0));
-        zero_zero16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero16.setText("0x0");
-        zero_zero16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        zero_zero16.setMaximumSize(new java.awt.Dimension(105, 105));
-        zero_zero16.setMinimumSize(new java.awt.Dimension(105, 105));
-        zero_zero16.setPreferredSize(new java.awt.Dimension(105, 105));
-
-        zero_zero18.setBackground(new java.awt.Color(255, 51, 0));
-        zero_zero18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero18.setText("0x0");
-        zero_zero18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        zero_zero18.setMaximumSize(new java.awt.Dimension(105, 105));
-        zero_zero18.setMinimumSize(new java.awt.Dimension(105, 105));
-        zero_zero18.setPreferredSize(new java.awt.Dimension(105, 105));
-
-        zero_zero19.setBackground(new java.awt.Color(255, 51, 0));
-        zero_zero19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero19.setText("0x0");
-        zero_zero19.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        zero_zero19.setMaximumSize(new java.awt.Dimension(105, 105));
-        zero_zero19.setMinimumSize(new java.awt.Dimension(105, 105));
-        zero_zero19.setPreferredSize(new java.awt.Dimension(105, 105));
-
-        zero_zero22.setBackground(new java.awt.Color(255, 51, 0));
-        zero_zero22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero22.setText("0x0");
-        zero_zero22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        zero_zero22.setMaximumSize(new java.awt.Dimension(105, 105));
-        zero_zero22.setMinimumSize(new java.awt.Dimension(105, 105));
-        zero_zero22.setPreferredSize(new java.awt.Dimension(105, 105));
-
-        zero_zero24.setBackground(new java.awt.Color(255, 51, 0));
-        zero_zero24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        zero_zero24.setText("0x0");
-        zero_zero24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        zero_zero24.setMaximumSize(new java.awt.Dimension(105, 105));
-        zero_zero24.setMinimumSize(new java.awt.Dimension(105, 105));
-        zero_zero24.setPreferredSize(new java.awt.Dimension(105, 105));
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
-
-        jButton1.setText("Sobre");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickSobre(evt);
-            }
-        });
-
-        jButton3.setText("Carregar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onClickCarregar(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 36));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Malha Viária");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(228, 228, 228)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-        setLocationRelativeTo(null);
     }
 
     private void onClickCarregar(java.awt.event.ActionEvent evt) {
@@ -191,8 +49,89 @@ public class Main extends JFrame {
         new Sobre().setVisible(true);
     }
 
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btCarregar = new javax.swing.JButton();
+        btSobre = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        jLabel1.setText("SIMULAÇÃO MALHA VIÁRIA");
+
+        jLabel2.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
+        jLabel2.setText("*Clique em \"Carregar Malha\" para selecionar uma malha viária e iniciar a simulação!");
+
+        btCarregar.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        btCarregar.setText("Carregar Malha");
+        btCarregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCarregarActionPerformed(evt);
+            }
+        });
+
+        btSobre.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        btSobre.setText("Sobre");
+        btSobre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSobreActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btCarregar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(168, 168, 168)
+                        .addComponent(btSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addGap(53, 53, 53))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSobre, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btCarregar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCarregarActionPerformed
+        this.onClickCarregar(evt);
+    }//GEN-LAST:event_btCarregarActionPerformed
+
+    private void btSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSobreActionPerformed
+        this.onClickSobre(evt);
+    }//GEN-LAST:event_btSobreActionPerformed
 
     public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -200,10 +139,18 @@ public class Main extends JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
 
+        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
@@ -211,16 +158,10 @@ public class Main extends JFrame {
         });
     }
 
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCarregar;
+    private javax.swing.JButton btSobre;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel zero_zero1;
-    private javax.swing.JLabel zero_zero16;
-    private javax.swing.JLabel zero_zero18;
-    private javax.swing.JLabel zero_zero19;
-    private javax.swing.JLabel zero_zero2;
-    private javax.swing.JLabel zero_zero22;
-    private javax.swing.JLabel zero_zero24;
+    private javax.swing.JLabel jLabel2;
+    // End of variables declaration//GEN-END:variables
 }

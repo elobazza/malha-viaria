@@ -3,11 +3,6 @@ package view.tablemodel;
 import controller.InterfaceControllerObserved;
 import javax.swing.table.AbstractTableModel;
 
-/**
- * Classe para Criação da Table Model
- * @author Eloísa Bazzanella e Maria Eduarda Buzana
- * @since  novembro, 2021
- */
 public class TableModelMalha extends AbstractTableModel {
     
     private InterfaceControllerObserved controller;
